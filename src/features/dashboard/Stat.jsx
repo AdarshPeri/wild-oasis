@@ -1,8 +1,10 @@
+/* eslint-disable react/prop-types */
 import styled from 'styled-components';
-import { box } from 'styles/styles';
 
 const StyledStat = styled.div`
-  ${box}
+  background-color: var(--color-grey-0);
+  border: 1px solid var(--color-grey-100);
+  border-radius: var(--border-radius-md);
 
   padding: 1.6rem;
   display: grid;
@@ -43,7 +45,6 @@ const Value = styled.p`
   font-size: 2.4rem;
   line-height: 1;
   font-weight: 500;
-  /* color: var(--color-grey-600); */
 `;
 
 function Stat({ icon, title, value, color }) {
