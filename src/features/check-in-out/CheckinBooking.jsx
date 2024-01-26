@@ -1,26 +1,25 @@
 import { useEffect, useState } from 'react';
-import { formatCurrency } from 'utils/helpers';
+import { formatCurrency } from '../../utils/helpers';
 
-import Spinner from 'ui/Spinner';
-import Row from 'ui/Row';
-import Heading from 'ui/Heading';
-import ButtonGroup from 'ui/ButtonGroup';
-import Button from 'ui/Button';
-import ButtonText from 'ui/ButtonText';
-import Checkbox from 'ui/Checkbox';
+import Spinner from '../../ui/Spinner';
+import Row from '../../ui/Row';
+import Heading from '../../ui/Heading';
+import ButtonGroup from '../../ui/ButtonGroup';
+import Button from '../../ui/Button';
+import ButtonText from '../../ui/ButtonText';
+import Checkbox from '../../ui/Checkbox';
 
-import BookingDataBox from 'features/bookings/BookingDataBox';
+import BookingDataBox from '../../features/bookings/BookingDataBox';
 
-import { useBooking } from 'features/bookings/useBooking';
-import { useMoveBack } from 'hooks/useMoveBack';
+import { useBooking } from '../../features/bookings/useBooking';
+import { useMoveBack } from '../../hooks/useMoveBack';
 import { useCheckin } from './useCheckin';
 
 import styled from 'styled-components';
-import { box } from 'styles/styles';
-import { useSettings } from 'features/settings/useSettings';
+// import { box } from 'styles/styles';
+import { useSettings } from '../../features/settings/useSettings';
 
 const Box = styled.div`
-  ${box}
   padding: 2.4rem 4rem;
 `;
 
@@ -29,11 +28,10 @@ function CheckinBooking() {
   const [addBreakfast, setAddBreakfast] = useState(false);
 
   const { booking, isLoading } = useBooking();
-  const { mutate: checkin, isLoading: isCheckingIn } = useCheckin();
+  const { checkin, isCheckingIn } = useCheckin();
   const moveBack = useMoveBack();
   const { isLoading: isLoadingSettings, settings } = useSettings();
 
-  // Can't use as initial state, because booking will still be loading
   useEffect(() => setConfirmPaid(booking?.isPaid ?? false), [booking]);
 
   if (isLoading || isLoadingSettings) return <Spinner />;
@@ -65,7 +63,6 @@ function CheckinBooking() {
     else checkin({ bookingId, breakfast: {} });
   }
 
-  // We return a fragment so that these elements fit into the page's layout
   return (
     <>
       <Row type='horizontal'>
@@ -75,7 +72,6 @@ function CheckinBooking() {
 
       <BookingDataBox booking={booking} />
 
-      {/* LATER */}
       {!hasBreakfast && (
         <Box>
           <Checkbox
@@ -95,7 +91,7 @@ function CheckinBooking() {
         <Checkbox
           checked={confirmPaid}
           onChange={() => setConfirmPaid((confirm) => !confirm)}
-          // If the guest has already paid online, we can't even undo this
+          // If the guest has already paid online, we can't uncheck this
           disabled={isCheckingIn || confirmPaid}
           id='confirm'
         >

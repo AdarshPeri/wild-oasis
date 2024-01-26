@@ -1,25 +1,24 @@
-import { useUser } from 'features/authentication/useUser';
+import { useCurrentUser } from './useCurrentUser';
 import { useState } from 'react';
-import Button from 'ui/Button';
-import FileInput from 'ui/FileInput';
-import Form from 'ui/Form';
-import FormRow from 'ui/FormRow';
-import Input from 'ui/Input';
+import Button from '../../ui/Button';
+import FileInput from '../../ui/FileInput';
+import Form from '../../ui/Form';
+import FormRow from '../../ui/FormRow';
+import Input from '../../ui/Input';
 import { useUpdateUser } from './useUpdateUser';
 
 function UpdateUserDataForm() {
-  // We don't need the loading state
   const {
     user: {
       email,
       user_metadata: { fullName: currentFullName },
     },
-  } = useUser();
+  } = useCurrentUser();
 
   const [fullName, setFullName] = useState(currentFullName);
   const [avatar, setAvatar] = useState(null);
 
-  const { mutate: updateUser, isLoading: isUpdating } = useUpdateUser();
+  const { updateUser, isUpdating } = useUpdateUser();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -37,8 +36,7 @@ function UpdateUserDataForm() {
     );
   }
 
-  function handleCancel(e) {
-    // We don't even need preventDefault because this button was designed to reset the form (remember, it has the HTML attribute 'reset')
+  function handleCancel() {
     setFullName(currentFullName);
     setAvatar(null);
   }
@@ -63,7 +61,6 @@ function UpdateUserDataForm() {
           id='avatar'
           accept='image/*'
           onChange={(e) => setAvatar(e.target.files[0])}
-          // We should also validate that it's actually an image, but never mind
         />
       </FormRow>
       <FormRow>

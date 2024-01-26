@@ -1,4 +1,7 @@
-import styled from "styled-components";
+/* eslint-disable react/prop-types */
+import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
+import { useSearchParams } from 'react-router-dom';
+import styled from 'styled-components';
 
 const StyledPagination = styled.div`
   width: 100%;
@@ -23,8 +26,8 @@ const Buttons = styled.div`
 
 const PaginationButton = styled.button`
   background-color: ${(props) =>
-    props.active ? " var(--color-brand-600)" : "var(--color-grey-50)"};
-  color: ${(props) => (props.active ? " var(--color-brand-50)" : "inherit")};
+    props.active ? ' var(--color-brand-600)' : 'var(--color-grey-50)'};
+  color: ${(props) => (props.active ? ' var(--color-brand-50)' : 'inherit')};
   border: none;
   border-radius: var(--border-radius-sm);
   font-weight: 500;
@@ -55,3 +58,49 @@ const PaginationButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+
+export const PAGE_SIZE = 10;
+
+const Pagination = ({ count }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageDetails = searchParams.get('page');
+  const currentPage = !pageDetails ? 1 : +pageDetails;
+  const pageCount = Math.ceil(count / PAGE_SIZE);
+  const isLastPage = currentPage === pageCount;
+  const isFirstPage = currentPage === 1;
+
+  const nextPage = () => {
+    const next = isLastPage ? currentPage : currentPage + 1;
+    searchParams.set('page', next);
+    setSearchParams(searchParams);
+  };
+
+  const previousPage = () => {
+    const prev = isFirstPage ? currentPage : currentPage - 1;
+    searchParams.set('page', prev);
+    setSearchParams(searchParams);
+  };
+
+  if(pageCount <= 1) return null;
+
+  return (
+    <StyledPagination>
+      <P>
+        Showing <span>{(currentPage - 1) * PAGE_SIZE + 1}</span> to{' '}
+        <span>{isLastPage ? count : (currentPage * PAGE_SIZE)}</span> of{' '}
+        <span>{count}</span> results.
+      </P>
+      <Buttons>
+        <PaginationButton onClick={previousPage} disabled={isFirstPage}>
+          <HiChevronLeft /> <span>Previous</span>
+        </PaginationButton>
+        <PaginationButton onClick={nextPage} disabled={isLastPage}>
+          <span>Next</span>
+          <HiChevronRight />
+        </PaginationButton>
+      </Buttons>
+    </StyledPagination>
+  );
+};
+
+export default Pagination;

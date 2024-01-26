@@ -1,22 +1,22 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Spinner from 'ui/Spinner';
+import Spinner from '../../ui/Spinner';
 import BookingDataBox from './BookingDataBox';
-import Row from 'ui/Row';
-import Heading from 'ui/Heading';
-import Tag from 'ui/Tag';
-import ButtonGroup from 'ui/ButtonGroup';
-import Button from 'ui/Button';
-import Modal from 'ui/Modal';
-import ConfirmDelete from 'ui/ConfirmDelete';
+import Row from '../../ui/Row';
+import Heading from '../../ui/Heading';
+import Tag from '../../ui/Tag';
+import ButtonGroup from '../../ui/ButtonGroup';
+import Button from '../../ui/Button';
+import Modal from '../../ui/Modal';
 
-import { useBooking } from 'features/bookings/useBooking';
+import { useBooking } from './useBooking';
 import { useDeleteBooking } from './useDeleteBooking';
-import { useMoveBack } from 'hooks/useMoveBack';
-import { useCheckout } from 'features/check-in-out/useCheckout';
-import ButtonText from 'ui/ButtonText';
-import Empty from 'ui/Empty';
+import { useMoveBack } from '../../hooks/useMoveBack';
+import ButtonText from '../../ui/ButtonText';
+import Empty from '../../ui/Empty';
+import { useCheckout } from '../check-in-out/useCheckout';
+import ConfirmDelete from '../../ui/ConfirmDelete';
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -25,18 +25,18 @@ const HeadingGroup = styled.div`
 `;
 
 function BookingDetail() {
-  const { booking } = useBooking();
-  const { mutate: deleteBooking, isLoading: isDeleting } = useDeleteBooking();
-  const { mutate: checkout, isLoading: isCheckingOut } = useCheckout();
+  const { booking, isLoading } = useBooking();
+  const { deleteBooking, isDeleting } = useDeleteBooking();
+  const { checkout, isCheckingOut } = useCheckout();
 
   const moveBack = useMoveBack();
   const navigate = useNavigate();
 
-  // if (isLoading) return <Spinner />;
-  // if (!booking) return <Empty resource='booking' />;
+  if (isLoading) return <Spinner />;
+  if (!booking) return <Empty resource='booking' />;
 
   const statusToTagName = {
-    unconfirmed: 'blue',
+    'unconfirmed': 'blue',
     'checked-in': 'green',
     'checked-out': 'silver',
   };
@@ -64,20 +64,20 @@ function BookingDetail() {
         )}
 
         {status === 'checked-in' && (
-          <Button onClick={() => checkout(bookingId)} disabled={isCheckingOut}>
+          <Button onClick={() => checkout({bookingId})} disabled={isCheckingOut}>
             Check out
           </Button>
         )}
 
         <Modal>
-          <Modal.Toggle opens='delete'>
+          <Modal.Open opens='delete'>
             <Button variation='danger'>Delete booking</Button>
-          </Modal.Toggle>
+          </Modal.Open>
           <Modal.Window name='delete'>
             <ConfirmDelete
               resource='booking'
               // These options will be passed wherever the function gets called, and they determine what happens next
-              onConfirm={(options) => deleteBooking(bookingId, options)}
+              onConfirm={() => deleteBooking(bookingId, {onSettled: () => navigate(-1)})}
               disabled={isDeleting}
             />
           </Modal.Window>

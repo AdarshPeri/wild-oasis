@@ -1,21 +1,22 @@
+/* eslint-disable react/prop-types */
 import styled from 'styled-components';
 import { format } from 'date-fns';
 
-import { box } from 'styles/styles';
-import { formatDistanceFromNow } from 'utils/helpers';
-import { isToday } from 'date-fns/esm';
-import { formatCurrency } from 'utils/helpers';
+// import { box } from '../../styles/GlobalStyles.js';
+import { formatDistanceFromNow } from '../../utils/helpers';
+import { formatCurrency } from '../../utils/helpers';
 import {
   HiOutlineChatBubbleBottomCenterText,
   HiOutlineCheckCircle,
   HiOutlineCurrencyDollar,
   HiOutlineHomeModern,
 } from 'react-icons/hi2';
-import DataItem from 'ui/DataItem';
-import { Flag } from 'ui/Flag';
+import DataItem from '../../ui/DataItem';
+import { Flag } from '../../ui/Flag';
+import moment from 'moment';
 
 const StyledBookingDataBox = styled.section`
-  ${box} /* padding: 3.2rem 4rem; */
+  padding: 3.2rem 4rem;
   overflow: hidden;
 `;
 
@@ -130,7 +131,7 @@ function BookingDataBox({ booking }) {
 
         <p>
           {format(new Date(startDate), 'EEE, MMM dd yyyy')} (
-          {isToday(new Date(startDate))
+          {moment().isSame(moment(startDate), 'days')
             ? 'Today'
             : formatDistanceFromNow(startDate)}
           ) &mdash; {format(new Date(endDate), 'EEE, MMM dd yyyy')}
