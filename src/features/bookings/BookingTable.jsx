@@ -1,5 +1,3 @@
-// import styled from 'styled-components';
-// import BookingRow from './BookingRow';
 import Spinner from '../../ui/Spinner';
 import Table from '../../ui/Table';
 import Menus from '../../ui/Menus';

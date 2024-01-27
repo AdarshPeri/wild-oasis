@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
 import styled from 'styled-components';
 import { format } from 'date-fns';
-
-// import { box } from '../../styles/GlobalStyles.js';
 import { formatDistanceFromNow } from '../../utils/helpers';
 import { formatCurrency } from '../../utils/helpers';
 import {
@@ -22,7 +20,9 @@ const StyledBookingDataBox = styled.section`
 
 const Header = styled.header`
   background-color: var(--color-brand-500);
-  /* padding: 2.4rem 4rem; */
+  background-color: var(--color-grey-0);
+  border: 1px solid var(--color-grey-100);
+  border-radius: var(--border-radius-md);
   padding: 2rem 4rem;
   color: #e0e7ff;
   font-size: 1.8rem;
@@ -59,7 +59,6 @@ const Guest = styled.div`
   display: flex;
   align-items: center;
   gap: 1.2rem;
-  /* font-size: 1.8rem; */
   margin-bottom: 1.6rem;
   color: var(--color-grey-500);
 
