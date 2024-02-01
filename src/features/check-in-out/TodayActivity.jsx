@@ -36,6 +36,10 @@ const TodayList = styled.ul`
   }
   scrollbar-width: none;
   -ms-overflow-style: none;
+
+  @media (max-width: 45em) {
+    overflow-x: scroll;
+  }
 `;
 
 const NoActivity = styled.p`
