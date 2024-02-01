@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { HiXMark } from 'react-icons/hi2';
 import styled from 'styled-components';
 import { useOutsideClick } from '../hooks/useOutsideClick';
+import useWindowDimensions from '../hooks/useWindowDimensions';
 
 const StyledModal = styled.div`
   position: fixed;
@@ -17,7 +18,7 @@ const StyledModal = styled.div`
   transition: all 0.5s;
 
   @media (max-width: 40em) {
-    padding: 1rem 1rem;
+    padding: 1.5rem 1rem;
   }
 `;
 
@@ -55,12 +56,6 @@ const Button = styled.button`
   }
 `;
 
-const MarginDiv = styled.div`
-  @media (max-width: 40em) {
-    margin: 4rem 0;
-  }
-`;
-
 const ModalContext = createContext();
 
 const Modal = ({ children }) => {
@@ -83,16 +78,18 @@ const Open = ({ children, opens: opensWindowName }) => {
 const Window = ({ children, name }) => {
   const { close, openName } = useContext(ModalContext);
   const ref = useOutsideClick(close);
+  const { isSmallScreen } = useWindowDimensions();
 
   if (name !== openName) return null;
 
   return createPortal(
     <Overlay>
       <StyledModal ref={ref}>
-        <Button onClick={close}>
-          <HiXMark />
-        </Button>
-        <MarginDiv />
+        {!isSmallScreen && (
+          <Button onClick={close}>
+            <HiXMark />
+          </Button>
+        )}
         <div>{cloneElement(children, { onCloseModal: close })}</div>
       </StyledModal>
     </Overlay>,
