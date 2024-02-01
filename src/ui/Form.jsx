@@ -26,7 +26,7 @@ const Form = styled.form`
   font-size: 1.4rem;
 
   @media (max-width: 40em) {
-    padding: 1.2rem 2rem;
+    padding: 1rem;
   }
 `;
 
