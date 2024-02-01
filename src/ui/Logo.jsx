@@ -3,6 +3,10 @@ import { useDarkMode } from '../hooks/useDarkMode';
 
 const StyledLogo = styled.div`
   text-align: center;
+  @media (max-width: 840px) {
+    padding: 1.8rem;
+    text-align:left ;
+  }
 `;
 
 const Img = styled.img`

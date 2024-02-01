@@ -9,6 +9,7 @@ import Modal from '../../ui/Modal';
 import ConfirmDelete from '../../ui/ConfirmDelete';
 import Table from '../../ui/Table';
 import Menus from '../../ui/Menus';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 const Img = styled.img`
   display: block;
@@ -40,6 +41,7 @@ const Discount = styled.div`
 const CabinRow = ({ cabin }) => {
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { createCabin } = useCreateCabin();
+  const { isSmallScreen } = useWindowDimensions();
 
   const {
     name,
@@ -63,9 +65,18 @@ const CabinRow = ({ cabin }) => {
   };
   return (
     <Table.Row>
-      <Img src={image} alt='cabin' />
-      <Cabin>{name}</Cabin>
-      <div>Fits up to {maxCapacity}</div>
+      {isSmallScreen ? (
+        <>
+          <Cabin>{name}</Cabin>
+        </>
+      ) : (
+        <>
+          <Img src={image} alt='cabin' />
+          <Cabin>{name}</Cabin>
+          <div>Fits up to {maxCapacity}</div>
+        </>
+      )}
+
       <Price>{formatCurrency(regularPrice)}</Price>
       {discount ? (
         <Discount>{formatCurrency(discount)}</Discount>

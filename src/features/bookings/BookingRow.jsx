@@ -20,6 +20,7 @@ import { formatDistanceFromNow } from '../../utils/helpers';
 import { format, isToday } from 'date-fns';
 import { useCheckout } from '../check-in-out/useCheckout';
 import { useDeleteBooking } from './useDeleteBooking';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -62,11 +63,12 @@ function BookingRow({
 }) {
   const { deleteBooking, isDeleting } = useDeleteBooking();
   const { checkout, isCheckingOut } = useCheckout();
+  const { isSmallScreen } = useWindowDimensions();
 
   const navigate = useNavigate();
 
   const statusToTagName = {
-    'unconfirmed': 'blue',
+    unconfirmed: 'blue',
     'checked-in': 'green',
     'checked-out': 'silver',
   };
@@ -80,22 +82,27 @@ function BookingRow({
         <span>{email}</span>
       </Stacked>
 
-      <Stacked>
-        <span>
-          {isToday(new Date(startDate))
-            ? 'Today'
-            : formatDistanceFromNow(startDate)}{' '}
-          &rarr; {numNights} night stay
-        </span>
-        <span>
-          {format(new Date(startDate), 'MMM dd yyyy')} &mdash;{' '}
-          {format(new Date(endDate), 'MMM dd yyyy')}
-        </span>
-      </Stacked>
+      {isSmallScreen ? (
+        <Tag type={statusToTagName[status]}>{status.replace('-', ' ')}</Tag>
+      ) : (
+        <>
+          <Stacked>
+            <span>
+              {isToday(new Date(startDate))
+                ? 'Today'
+                : formatDistanceFromNow(startDate)}{' '}
+              &rarr; {numNights} night stay
+            </span>
+            <span>
+              {format(new Date(startDate), 'MMM dd yyyy')} &mdash;{' '}
+              {format(new Date(endDate), 'MMM dd yyyy')}
+            </span>
+          </Stacked>
 
-      <Tag type={statusToTagName[status]}>{status.replace('-', ' ')}</Tag>
-
-      <Amount>{formatCurrency(totalPrice)}</Amount>
+          <Tag type={statusToTagName[status]}>{status.replace('-', ' ')}</Tag>
+          <Amount>{formatCurrency(totalPrice)}</Amount>
+        </>
+      )}
 
       <Modal>
         <Menus.Menu>
@@ -119,7 +126,7 @@ function BookingRow({
 
             {status === 'checked-in' && (
               <Menus.Button
-                onClick={() => checkout({bookingId})}
+                onClick={() => checkout({ bookingId })}
                 disabled={isCheckingOut}
                 icon={<HiArrowUpOnSquare />}
               >

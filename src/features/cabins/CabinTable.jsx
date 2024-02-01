@@ -5,13 +5,15 @@ import Table from '../../ui/Table';
 import Menus from '../../ui/Menus';
 import { useSearchParams } from 'react-router-dom';
 import Empty from '../../ui/Empty';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 const CabinTable = () => {
   const { isLoading, cabins } = useCabins();
   const [searchParams] = useSearchParams();
+  const { isSmallScreen } = useWindowDimensions();
 
   if (isLoading) return <Spinner />;
-  if(!cabins?.length) return <Empty resource='cabins'/>
+  if (!cabins?.length) return <Empty resource='cabins' />;
 
   const filterValue = searchParams.get('discount') || 'all';
   let filteredCabins;
@@ -31,19 +33,31 @@ const CabinTable = () => {
     (a, b) => (a[field] - b[field]) * modifier
   );
 
+  const columnDefinition = isSmallScreen
+    ? '0.7fr 1fr 1fr 0.3fr'
+    : '0.6fr 1.8fr 2.2fr 1fr 1fr 1fr';
+
   return (
     <Menus>
-      <Table columns='0.6fr 1.8fr 2.2fr 1fr 1fr 1fr'>
+      <Table columns={columnDefinition}>
         <Table.Header>
-          <div></div>
-          <div>Cabin</div>
-
-          <div>Capacity</div>
-
-          <div>Price</div>
-
-          <div>Discount</div>
-          <div></div>
+          {isSmallScreen ? (
+            <>
+              <div>Cabin</div>
+              <div>Price</div>
+              <div>Discount</div>
+              <div></div>
+            </>
+          ) : (
+            <>
+              <div></div>
+              <div>Cabin</div>
+              <div>Capacity</div>
+              <div>Price</div>
+              <div>Discount</div>
+              <div></div>
+            </>
+          )}
         </Table.Header>
         <Table.Body
           data={sortedCabins}

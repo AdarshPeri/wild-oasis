@@ -7,6 +7,8 @@ import {
   HiOutlineHomeModern,
   HiOutlineUsers,
 } from "react-icons/hi2";
+import { useContext } from 'react';
+import { DarkModeContext } from '../context/DarkModeContext';
 
 const NavList = styled.ul`
   display: flex;
@@ -54,35 +56,37 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 function MainNav() {
+  const {setIsNavOpen} = useContext(DarkModeContext);
+
   return (
     <nav>
       <NavList>
         <li>
-          <StyledNavLink to="/dashboard">
+          <StyledNavLink to="/dashboard" onClick={() => setIsNavOpen(false)}>
             <HiOutlineHome />
             <span>Home</span>
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/bookings">
+          <StyledNavLink to="/bookings" onClick={() => setIsNavOpen(false)}>
             <HiOutlineCalendarDays />
             <span>Bookings</span>
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/cabins">
+          <StyledNavLink to="/cabins" onClick={() => setIsNavOpen(false)}>
             <HiOutlineHomeModern />
             <span>Cabins</span>
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/users">
+          <StyledNavLink to="/users" onClick={() => setIsNavOpen(false)}>
             <HiOutlineUsers />
             <span>Users</span>
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/settings">
+          <StyledNavLink to="/settings" onClick={() => setIsNavOpen(false)}>
             <HiOutlineCog6Tooth />
             <span>Settings</span>
           </StyledNavLink>

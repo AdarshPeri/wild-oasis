@@ -183,6 +183,24 @@ img {
   filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
 }
 
+@media (max-width: 83.5em) {
+  html {
+    font-size: 56.25%;
+  }
+}
+
+@media (max-width: 56.25em) {
+  html {
+    font-size: 50%;
+  }
+}
+
+@media (max-width: 45em) {
+  html {
+    font-size: 45%;
+  }
+}
+
 `;
 
 export default GlobalStyles;

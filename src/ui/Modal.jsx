@@ -1,10 +1,5 @@
 /* eslint-disable react/prop-types */
-import {
-  cloneElement,
-  createContext,
-  useContext,
-  useState,
-} from 'react';
+import { cloneElement, createContext, useContext, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { HiXMark } from 'react-icons/hi2';
 import styled from 'styled-components';
@@ -20,6 +15,10 @@ const StyledModal = styled.div`
   box-shadow: var(--shadow-lg);
   padding: 3.2rem 4rem;
   transition: all 0.5s;
+
+  @media (max-width: 40em) {
+    padding: 1rem 1rem;
+  }
 `;
 
 const Overlay = styled.div`

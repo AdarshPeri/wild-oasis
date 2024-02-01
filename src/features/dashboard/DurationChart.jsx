@@ -26,6 +26,14 @@ const ChartBox = styled.div`
   & > *:first-child {
     margin-bottom: 1.6rem;
   }
+
+  @media (max-width: 83.5em) {
+    grid-column: 1 / 5;
+  }
+
+  @media (max-width: 45em) {
+    padding: 1.8rem 2.4rem;
+  }
 `;
 
 const startDataLight = [
@@ -115,7 +123,6 @@ const startDataDark = [
 ];
 
 function prepareData(startData, stays) {
-
   function incArrayValue(arr, field) {
     return arr.map((obj) =>
       obj.duration === field ? { ...obj, value: obj.value + 1 } : obj
@@ -148,7 +155,7 @@ function DurationChart({ confirmedStays }) {
   return (
     <ChartBox>
       <Heading type='h2'>Stay duration summary</Heading>
-      <ResponsiveContainer width='100%' height={240}>
+      <ResponsiveContainer width='99%' height={240}>
         <PieChart>
           <Pie
             data={data}
@@ -156,10 +163,10 @@ function DurationChart({ confirmedStays }) {
             dataKey='value'
             cx='40%'
             cy='50%'
-            innerRadius={85}
-            outerRadius={110}
+            innerRadius={50}
+            outerRadius={75}
             fill='#4f46e5'
-            paddingAngle={3}
+            paddingAngle={2}
             startAngle={180}
             endAngle={-180}
           >

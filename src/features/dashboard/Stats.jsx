@@ -7,7 +7,16 @@ import {
 } from 'react-icons/hi2';
 import { formatCurrency } from '../../utils/helpers';
 import Stat from './Stat';
+import styled from 'styled-components';
 
+const StyledStat = styled.div`
+  grid-column: 1/5 ;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  @media (max-width: 1140px) {
+    grid-template-columns: 1fr 1fr;
+  }
+`;
 function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
   // Stat 1)
   const numBookings = bookings.length;
@@ -24,7 +33,7 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
     (numDays * cabinCount);
 
   return (
-    <>
+    <StyledStat>
       <Stat
         icon={<HiOutlineBriefcase />}
         title='Bookings'
@@ -49,7 +58,7 @@ function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
         value={Math.round(occupation * 100) + '%'}
         color='yellow'
       />
-    </>
+    </StyledStat>
   );
 }
 

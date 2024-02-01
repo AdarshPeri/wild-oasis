@@ -1,8 +1,11 @@
 import SortBy from '../../ui/SortBy';
 import Filter from '../../ui/Filter';
 import TableOperations from '../../ui/TableOperations';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 function BookingTableOperations() {
+  const { isSmallScreen } = useWindowDimensions();
+
   return (
     <TableOperations>
       <Filter
@@ -14,18 +17,21 @@ function BookingTableOperations() {
           { value: 'unconfirmed', label: 'Unconfirmed' },
         ]}
       />
-
-      <SortBy
-        options={[
-          { value: 'startDate-desc', label: 'Sort by date (recent first)' },
-          { value: 'startDate-asc', label: 'Sort by date (earlier first)' },
-          {
-            value: 'totalPrice-desc',
-            label: 'Sort by amount (high first)',
-          },
-          { value: 'totalPrice-asc', label: 'Sort by amount (low first)' },
-        ]}
-      />
+      {isSmallScreen ? (
+        <></>
+      ) : (
+        <SortBy
+          options={[
+            { value: 'startDate-desc', label: 'Sort by date (recent first)' },
+            { value: 'startDate-asc', label: 'Sort by date (earlier first)' },
+            {
+              value: 'totalPrice-desc',
+              label: 'Sort by amount (high first)',
+            },
+            { value: 'totalPrice-asc', label: 'Sort by amount (low first)' },
+          ]}
+        />
+      )}
     </TableOperations>
   );
 }

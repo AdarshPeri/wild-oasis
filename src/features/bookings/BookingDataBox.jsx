@@ -6,16 +6,22 @@ import { formatCurrency } from '../../utils/helpers';
 import {
   HiOutlineChatBubbleBottomCenterText,
   HiOutlineCheckCircle,
-  HiOutlineCurrencyDollar,
+  HiOutlineCurrencyRupee,
   HiOutlineHomeModern,
 } from 'react-icons/hi2';
 import DataItem from '../../ui/DataItem';
 import { Flag } from '../../ui/Flag';
 import moment from 'moment';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 
 const StyledBookingDataBox = styled.section`
   padding: 3.2rem 4rem;
   overflow: hidden;
+
+  @media (max-width: 40em) {
+    margin-top: 2rem;
+    padding: 0.2rem;
+  }
 `;
 
 const Header = styled.header`
@@ -24,7 +30,7 @@ const Header = styled.header`
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
   padding: 2rem 4rem;
-  color: #e0e7ff;
+  color: var(--color-grey-600);
   font-size: 1.8rem;
   font-weight: 500;
   display: flex;
@@ -49,10 +55,23 @@ const Header = styled.header`
     font-size: 2rem;
     margin-left: 4px;
   }
+
+  @media (max-width: 40em) {
+    padding: 1rem 2rem;
+    svg {
+      height: 4.8rem;
+      width: 4.8rem;
+    }
+
+    gap: 2rem;
+  }
 `;
 
 const Section = styled.section`
   padding: 3.2rem 4rem 1.2rem;
+  @media (max-width: 40em) {
+    padding: 1.6rem 2rem 0.6rem;
+  }
 `;
 
 const Guest = styled.div`
@@ -65,6 +84,16 @@ const Guest = styled.div`
   & p:first-of-type {
     font-weight: 500;
     color: var(--color-grey-700);
+  }
+
+  @media (max-width: 40em) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+
+    & p:first-of-type {
+      font-size: 2rem;
+    }
   }
 `;
 
@@ -92,6 +121,15 @@ const Price = styled.div`
     width: 2.4rem;
     color: currentColor !important;
   }
+
+  @media (max-width: 40em) {
+    padding: 0.4rem 0.8rem;
+
+    svg {
+      height: 4.8rem;
+      width: 4.8rem;
+    }
+  }
 `;
 
 const Footer = styled.footer`
@@ -102,6 +140,8 @@ const Footer = styled.footer`
 `;
 
 function BookingDataBox({ booking }) {
+  const { isSmallScreen } = useWindowDimensions();
+
   const {
     created_at,
     startDate,
@@ -139,14 +179,22 @@ function BookingDataBox({ booking }) {
 
       <Section>
         <Guest>
-          {countryFlag && <Flag src={countryFlag} alt={`Flag of ${country}`} />}
+          {countryFlag && (
+            <Flag
+              src={countryFlag}
+              alt={`Flag of ${country}`}
+              size={isSmallScreen && 'large'}
+            />
+          )}
           <p>
             {guestName} {numGuests > 1 ? `+ ${numGuests - 1} guests` : ''}
           </p>
-          <span>&bull;</span>
+          {!isSmallScreen && <span>&bull;</span>}
           <p>{email}</p>
-          <span>&bull;</span>
-          <p>National ID {nationalID}</p>
+          {!isSmallScreen && <span>&bull;</span>}
+          <p>
+            <strong>National ID</strong> {nationalID}
+          </p>
         </Guest>
 
         {observations && (
@@ -163,7 +211,7 @@ function BookingDataBox({ booking }) {
         </DataItem>
 
         <Price isPaid={isPaid}>
-          <DataItem icon={<HiOutlineCurrencyDollar />} label={`Total price`}>
+          <DataItem icon={<HiOutlineCurrencyRupee />} label={`Total price`}>
             {formatCurrency(totalPrice)}
 
             {hasBreakfast &&

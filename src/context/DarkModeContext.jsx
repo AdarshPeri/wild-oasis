@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { createContext, useEffect } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { useLocalStorageState } from '../hooks/useLocalStorageState';
 
 export const DarkModeContext = createContext();
@@ -9,6 +9,8 @@ export const DarkModeProvider = ({ children }) => {
     window.matchMedia('(prefers-color-scheme: dark)').matches,
     'isDarkMode'
   );
+
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -24,7 +26,7 @@ export const DarkModeProvider = ({ children }) => {
   };
 
   return (
-    <DarkModeContext.Provider value={{ isDarkMode, toggleDarkMode }}>
+    <DarkModeContext.Provider value={{ isDarkMode, toggleDarkMode, isNavOpen, setIsNavOpen}}>
       {children}
     </DarkModeContext.Provider>
   );
