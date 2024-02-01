@@ -16,7 +16,9 @@ const Form = styled.form`
     props.type === 'modal' &&
     css`
       width: 80rem;
-
+      & :first-child {
+        margin-top: 3rem;
+      }
       @media (max-width: 40em) {
         width: 100%;
       }
