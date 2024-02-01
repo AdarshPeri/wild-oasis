@@ -55,6 +55,12 @@ const Button = styled.button`
   }
 `;
 
+const MarginDiv = styled.div`
+  @media (max-width: 40em) {
+    margin: 4rem 0;
+  }
+`;
+
 const ModalContext = createContext();
 
 const Modal = ({ children }) => {
@@ -86,6 +92,7 @@ const Window = ({ children, name }) => {
         <Button onClick={close}>
           <HiXMark />
         </Button>
+        <MarginDiv />
         <div>{cloneElement(children, { onCloseModal: close })}</div>
       </StyledModal>
     </Overlay>,
