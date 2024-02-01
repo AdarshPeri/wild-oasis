@@ -11,13 +11,20 @@ const LoginLayout = styled.main`
   justify-content: center;
   gap: 3.2rem;
   background-color: var(--color-grey-50);
+
+  @media (max-width: 40em) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
 `;
 
 function Login() {
   return (
     <LoginLayout>
-    <Logo />
-    <Heading as='h4' >Log in to your account</Heading>
+      <Logo />
+      <Heading as='h4'>Log in to your account</Heading>
       <LoginForm />
     </LoginLayout>
   );

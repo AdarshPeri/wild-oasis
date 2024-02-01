@@ -26,7 +26,6 @@ const Form = styled.form`
   font-size: 1.4rem;
 
   @media (max-width: 40em) {
-    padding: 1rem;
     width: 90dvw;
     overflow-x: scroll;
   }
